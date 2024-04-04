@@ -21,6 +21,12 @@ class AuthRegisterController extends Controller
         return view('login');
     }
 
+    public function logout()
+    {
+        auth('web')->logout();
+        return redirect('/');
+    }
+
     /**
      * Обробка запиту на реєстрацію нового користувача.
      *

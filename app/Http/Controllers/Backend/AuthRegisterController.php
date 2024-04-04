@@ -15,6 +15,12 @@ class AuthRegisterController extends Controller
         return view('admin.login');
     }
 
+    public function logout()
+    {
+        auth('admin')->logout();
+        return redirect('admin');
+    }
+
     /**
      * Обробка запиту на вхід адміністратора.
      *

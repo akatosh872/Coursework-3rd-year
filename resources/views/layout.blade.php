@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ваш сайт бронювання готелів</title>
+    <title>Бронювання готелів</title>
     {{-- Підключення Bootstrap --}}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
 
@@ -21,14 +22,32 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Головна</a>
+                        <a class="nav-link active" aria-current="page" href="{{ route('welcome') }}">Головна</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Про нас</a>
+                        <a class="nav-link" href="{{ route('hotels.show') }}">Готелі</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Контакти</a>
-                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    @guest
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">Реєстрація</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">Вхід</a>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('logout') }}"
+                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Вийти
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </li>
+                    @endguest
                 </ul>
             </div>
         </div>

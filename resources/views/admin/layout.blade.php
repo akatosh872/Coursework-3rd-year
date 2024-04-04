@@ -7,6 +7,7 @@
     <title>Адмін Панель</title>
     {{-- Підключення Bootstrap --}}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
 
@@ -33,10 +34,25 @@
                 </ul>
                 {{-- Вихід з адмін панелі --}}
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.logout') }}">Вийти</a>
-                    </li>
+                    @guest('admin')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.login') }}">Вхід</a>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.logout') }}"
+                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Вийти
+                            </a>
+
+                            <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </li>
+                    @endguest
                 </ul>
+
+
             </div>
         </div>
     </nav>
