@@ -36,10 +36,6 @@
                                     @endfor
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="price">Ціна за ніч</label>
-                                <input type="number" class="form-control" id="price" name="price" required>
-                            </div>
                             <button type="submit" class="btn btn-primary">Створити</button>
                         </form>
                     </div>

@@ -23,13 +23,13 @@
                 {{-- Навігація адмін панелі --}}
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/admin/dashboard">Головна</a>
+                        <a class="nav-link active" aria-current="page" href="{{ route('admin.welcome') }}">Головна</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/users">Користувачі</a>
+                        <a class="nav-link" href="{{ route('admin.hotel_create') }}">Створити готель</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/settings">Налаштування</a>
+                        <a class="nav-link" href="{{ route('admin.hotels.show') }}">Готелі</a>
                     </li>
                 </ul>
                 {{-- Вихід з адмін панелі --}}
@@ -69,7 +69,7 @@
 </footer>
 
 {{-- Підключення Bootstrap JS --}}
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

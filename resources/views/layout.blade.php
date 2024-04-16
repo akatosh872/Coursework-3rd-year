@@ -8,6 +8,8 @@
     {{-- Підключення Bootstrap --}}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    {{-- Підключення FancyBox --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
 </head>
 <body>
 
@@ -26,6 +28,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('hotels.show') }}">Готелі</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('rooms.show') }}">Пошук номерів</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
@@ -69,5 +74,6 @@
 {{-- Підключення Bootstrap JS --}}
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
 </body>
 </html>

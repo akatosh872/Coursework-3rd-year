@@ -1,5 +1,5 @@
 {{-- admin.login.blade.php --}}
-@extends('layout')
+@extends('admin.layout')
 
 @section('content')
     <div class="container mt-5">
