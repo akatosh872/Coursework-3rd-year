@@ -36,8 +36,18 @@ class Room extends Model
         return $this->belongsToMany(Amenity::class);
     }
 
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
     public function type()
     {
         return $this->belongsTo(RoomType::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 }

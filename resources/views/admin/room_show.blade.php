@@ -24,12 +24,12 @@
                         @foreach($room->photos as $photo)
                             <div class="col-md-3 mb-3">
                                 <img src="{{ asset($photo->path) }}" alt="Фото готелю" class="img-thumbnail">
-                                <input type="file" class="form-control-file mt-2" id="photo{{$loop->iteration}}" name="photo{{$loop->iteration}}">
                             </div>
                         @endforeach
                     @endif
                 </div>
             </div>
+            <input type="file" class="" name="photos[]" multiple>
             <div class="form-group">
                 <label for="number">Номер</label>
                 <input type="number" class="form-control" id="number" name="number" value="{{ $room->number }}" required>
@@ -69,4 +69,5 @@
             <button type="submit" class="btn btn-primary">Підтвердити</button>
         </form>
     </div>
+
 @endsection

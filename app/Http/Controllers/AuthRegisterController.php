@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -12,6 +15,9 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthRegisterController extends Controller
 {
+    /**
+     * @return Application|Factory|View
+     */
     public function showRegistrationForm ()
     {
         return view('register');
@@ -21,6 +27,9 @@ class AuthRegisterController extends Controller
         return view('login');
     }
 
+    /**
+     * @return Application|RedirectResponse|Redirector
+     */
     public function logout()
     {
         auth('web')->logout();
@@ -73,5 +82,13 @@ class AuthRegisterController extends Controller
 
         // Невдала аутентифікація, повернення на сторінку входу з помилкою
         return redirect()->back()->withErrors(['email' => 'Невірна електронна пошта або пароль']);
+    }
+
+    public function showPersonalCabinet()
+    {
+        $bookings = Booking::with('room.hotel')->where('user_id', Auth::id())->get();
+
+
+        return view('personal-cabinet', compact('bookings'));
     }
 }

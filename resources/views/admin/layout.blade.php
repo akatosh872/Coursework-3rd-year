@@ -7,6 +7,8 @@
     <title>Адмін Панель</title>
     {{-- Підключення Bootstrap --}}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -30,6 +32,12 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin.hotels.show') }}">Готелі</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.bookings.show') }}">Бронювання</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.reviews.showReviewsForm') }}">Відгуки</a>
                     </li>
                 </ul>
                 {{-- Вихід з адмін панелі --}}
@@ -71,5 +79,8 @@
 {{-- Підключення Bootstrap JS --}}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+
+@yield('scripts')
 </body>
 </html>

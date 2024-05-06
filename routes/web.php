@@ -7,6 +7,9 @@ use App\Http\Controllers\Backend\AuthRegisterController as BackAuth;
 use App\Http\Controllers\Backend\HotelController as BackHotel;
 use App\Http\Controllers\HotelController as UserHotel;
 use App\Http\Controllers\RoomController as UserRoom;
+use App\Http\Controllers\BookingController as UserBooking;
+use App\Http\Controllers\Backend\BookingController as BackBooking;
+use App\Http\Controllers\Backend\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +34,13 @@ Route::get('hotel/{id}', [UserHotel::class, 'showHotelForm'])->name('hotel.show'
 Route::get('/rooms', [UserRoom::class, 'showRoomsForm'])->name('rooms.show');
 Route::get('/rooms/search', [UserRoom::class, 'search'])->name('rooms.search');
 Route::get('/room/{id}', [UserRoom::class, 'showRoomForm'])->name('room.show');
+Route::post('/room/{id}', [UserRoom::class, 'storeReview'])->name('room.storeReview');
 
+Route::post('/booking', [UserBooking::class, 'create'])->name('booking.store');
+Route::get('/booking/{bookingId}/payment', [UserBooking::class, 'payment'])->name('booking.payment');
+Route::post('/booking/{bookingId}/payment', [UserBooking::class, 'paymentConfirm'])->name('payment.confirm');
+
+Route::get('/personal-cabinet', [UserAuth::class, 'showPersonalCabinet'])->name('personal.cabinet');
 
 Route::middleware(['guest:web'])->group(function () {
     Route::get('register', [UserAuth::class, 'showRegistrationForm'])->name('register');
@@ -48,6 +57,12 @@ Route::prefix('admin')->group(function () {
         Route::get('login', [BackAuth::class, 'showLoginForm'])->name('admin.login');
         Route::post('login', [BackAuth::class, 'login']);
     });
+
+    Route::middleware(['auth:admin'])->group(function () {
+        Route::get('/', function () {
+            return view('admin.welcome');
+        })->name('admin.welcome');
+
         Route::get('/', function () {
             return view('admin.welcome');
         })->name('admin.welcome');
@@ -66,4 +81,15 @@ Route::prefix('admin')->group(function () {
         Route::post('hotels/{hotelId}/rooms', [BackRoom::class, 'create'])->name('admin.hotel.rooms.create');
         Route::get('hotel/{hotel}/rooms/{room}', [BackRoom::class, 'showHotelForm'])->name('admin.hotel.rooms.show');
         Route::put('hotel/{hotel}/rooms/{room}', [BackRoom::class, 'update'])->name('admin.hotel.rooms.update');
+
+        Route::get('bookings', [BackBooking::class, 'showBookingsForm'])->name('admin.bookings.show');
+        Route::delete('bookings/{id}', [BackBooking::class, 'delete'])->name('admin.booking.delete');
+
+        Route::get('booking/{id}', [BackBooking::class, 'showBookingForm'])->name('admin.booking.show');
+        Route::put('booking/{id}', [BackBooking::class, 'edit'])->name('admin.booking.edit');
+
+        Route::get('reviews', [ReviewController::class, 'showReviewsForm'])->name('admin.reviews.showReviewsForm');
+        Route::delete('reviews/{review}', [ReviewController::class, 'destroy'])->name('admin.reviews.destroy');
+        Route::patch('reviews/{review}', [ReviewController::class, 'update'])->name('admin.reviews.update');
+    });
 });

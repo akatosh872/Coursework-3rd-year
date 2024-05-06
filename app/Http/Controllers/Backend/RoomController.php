@@ -64,19 +64,13 @@ class RoomController extends Controller
     {
         $room = Room::findOrFail($roomId);
 
-        for ($i = 1; $i <= 3; $i++) {
-            $photoField = 'photo' . $i;
-            if ($request->hasFile($photoField)) {
-                $photoName = time() . '_' . $i . '.' . $request->$photoField->extension();
+        if ($request->has('photos')) {
+            foreach ($request->file('photos') as $file) {
+                $photoName = time() . '_' . $file->getClientOriginalName();
                 $photoPath = 'images/' . $photoName;
 
-                // Завантажте зображення
-                $image = Image::make($request->$photoField->path());
-
-                // Змініть розмір зображення до 1280x720
+                $image = Image::make($file->path());
                 $image->resize(1280, 720);
-
-                // Збережіть зображення
                 $image->save(public_path($photoPath));
 
                 $photo = new Photo();
