@@ -5,10 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Бронювання готелів</title>
-    {{-- Підключення Bootstrap --}}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
+    <link href="{{ asset('css/app.css') }}?v={{time()}}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -18,40 +16,40 @@
 
 {{-- Хедер сайту --}}
 <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">HotelBooking</a>
+            <a class="navbar-brand" href="#"><img src="/logo.jpg" alt="Logo" style="height: 30px;"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ route('welcome') }}">Головна</a>
+                        <a class="nav-link active" aria-current="page" href="{{ route('welcome') }}"><i class="fas fa-home"></i> Головна</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('hotels.show') }}">Готелі</a>
+                        <a class="nav-link" href="{{ route('hotels.show') }}"><i class="fas fa-hotel"></i> Готелі</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('rooms.show') }}">Пошук номерів</a>
+                        <a class="nav-link" href="{{ route('rooms.show') }}"><i class="fas fa-search"></i> Пошук номерів</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     @guest
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">Реєстрація</a>
+                            <a class="btn btn-login-register" href="{{ route('register') }}"><i class="fas fa-user-plus"></i> Реєстрація</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">Вхід</a>
+                            <a class="btn btn-login-register" href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> Вхід</a>
                         </li>
                     @else
                         <li class="nav-item">
-                            <a href="{{route('personal.cabinet')}}" class="nav-link">Особистий кабінет</a>
+                            <a href="{{route('personal.cabinet')}}" class="nav-link"><i class="fas fa-user"></i> Особистий кабінет</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('logout') }}"
                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                Вийти
+                                <i class="fas fa-sign-out-alt"></i> Вийти
                             </a>
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -70,9 +68,8 @@
     @yield('content')
 </main>
 
-{{-- Футер сайту --}}
-<footer class="bg-light text-center text-lg-start">
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+<footer class="text-center text-lg-start">
+    <div class="text-center p-3" style="background-color: #007bff; color: #fff;">
         © 2024 HotelBooking. Всі права захищені.
     </div>
 </footer>
@@ -80,6 +77,7 @@
 {{-- Підключення jQuery --}}
 <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/3.0.0/jquery.payment.min.js"></script>
 {{-- Підключення Bootstrap JS --}}
 <script type="text/javascript" charset="utf8" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 {{-- Підключення FancyBox --}}
@@ -87,60 +85,20 @@
 {{-- Підключення DataTables --}}
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
 <script>
-    $( function() {
-        $( ".datepicker" ).datepicker({
-            dateFormat: "yy-mm-dd"
+    $(function() {
+        $(".datepicker").datepicker({
+            dateFormat: "yy-mm-dd",
+            minDate: 0, // не дозволяти вибрати дату раніше сьогоднішньої
+            onSelect: function(selectedDate) {
+                if ($(this).hasClass('check_in_date')) {
+                    var endDate = $(this).closest('form').find('.check_out_date');
+                    endDate.datepicker('option', 'minDate', selectedDate);
+                    endDate.prop('disabled', false);
+                }
+            }
         });
-    } );
+    });
 </script>
-<style>
-    .star-rating {
-        display: inline-block;
-        font-size: 0;
-    }
-    .star-rating__ico:hover:before,
-    .star-rating__ico:hover ~ .star-rating__ico:before,
-    .star-rating__input:checked ~ .star-rating__ico:before
-    {
-        content: "\f005";
-    }
-    .star-rating {
-        direction: rtl;
-        display: inline-block;
-        padding: 0;
-        margin: 0;
-    }
-
-    .star-rating input[type=radio] {
-        display: none;
-    }
-
-    .star-rating label {
-        color: #ddd;
-        font-size: 20px;
-        padding: 0;
-        cursor: pointer;
-        transition: color .2s;
-    }
-
-    .star-rating input[type=radio]:checked ~ label,
-    .star-rating label:hover,
-    .star-rating label:hover ~ label {
-        color: #ffd700;
-    }
-    .pagination .page-item .page-link {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .pagination .page-item .page-link svg {
-        width: 1em;
-        height: 1em;
-    }
-
-</style>
-
 @yield('scripts')
 </body>
 </html>

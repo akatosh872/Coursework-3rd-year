@@ -27,8 +27,13 @@ class RoomController extends Controller
         $room = Room::with('photos', 'amenities', 'reviews.user')->findOrFail($id);
         $payment_methods = DB::table('payment_methods')->get();
         $booking = Booking::where('room_id', $id)->where('user_id', auth('web')->id())->first();
+        $reserved = Booking::where('room_id', $id)
+                ->whereDate('check_out_date', '>=', now())
+                ->where('payment_confirm', 1)
+                ->latest('check_out_date')
+                ->first() != null;
 
-        return view('room', compact('room', 'payment_methods', 'booking'));
+        return view('room', compact('room', 'payment_methods', 'booking', 'reserved'));
     }
 
     public function search(Request $request)

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\RoomController as BackRoom;
+use App\Models\Hotel;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthRegisterController as UserAuth;
 use App\Http\Controllers\Backend\AuthRegisterController as BackAuth;
@@ -23,7 +24,8 @@ use App\Http\Controllers\Backend\ReviewController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $hotels = Hotel::all();
+    return view('welcome', compact('hotels'));
 })->name('welcome');
 
 Route::post('logout', [UserAuth::class, 'logout'])->name('logout');
@@ -81,6 +83,7 @@ Route::prefix('admin')->group(function () {
         Route::post('hotels/{hotelId}/rooms', [BackRoom::class, 'create'])->name('admin.hotel.rooms.create');
         Route::get('hotel/{hotel}/rooms/{room}', [BackRoom::class, 'showHotelForm'])->name('admin.hotel.rooms.show');
         Route::put('hotel/{hotel}/rooms/{room}', [BackRoom::class, 'update'])->name('admin.hotel.rooms.update');
+        Route::post('hotel/rooms/{room}/photos/{photo}/delete', [BackRoom::class, 'deletePhoto'])->name('admin.hotel.rooms.photos.delete');
 
         Route::get('bookings', [BackBooking::class, 'showBookingsForm'])->name('admin.bookings.show');
         Route::delete('bookings/{id}', [BackBooking::class, 'delete'])->name('admin.booking.delete');

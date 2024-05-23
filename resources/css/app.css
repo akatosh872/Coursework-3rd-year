@@ -1,0 +1,139 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+footer {
+    flex-shrink: 0;
+}
+
+.hotel-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: auto;
+}
+
+.navbar {
+    background-color: #007bff;
+}
+.nav-link {
+    color: #fff;
+    margin: 0 5px;
+}
+.nav-link:hover {
+    background-color: transparent;
+    color: #fff;
+}
+.btn-login-register {
+    background-color: #fff;
+    color: #007bff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+}
+.btn-login-register:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+footer {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.room-image {
+    width: 100%;
+    height: auto;
+}
+.booking-form {
+    max-width: 500px;
+    margin: auto;
+}
+.review-form {
+    max-width: 500px;
+    margin: auto;
+}
+.carousel-control-prev, .carousel-control-next {
+    width: 5%;
+}
+
+.carousel-item img {
+    object-fit: contain;
+    height: 100%;
+    margin: auto;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.admin-content {
+    flex: 1 0 auto;
+}
+
+.admin-footer {
+    flex-shrink: 0;
+}
+
+.star-rating {
+    display: inline-block;
+    font-size: 0;
+}
+.star-rating__ico:hover:before,
+.star-rating__ico:hover ~ .star-rating__ico:before,
+.star-rating__input:checked ~ .star-rating__ico:before
+{
+    content: "\f005";
+}
+.star-rating {
+    direction: rtl;
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+.star-rating input[type=radio] {
+    display: none;
+}
+
+.star-rating label {
+    color: #ddd;
+    font-size: 20px;
+    padding: 0;
+    cursor: pointer;
+    transition: color .2s;
+}
+
+.star-rating input[type=radio]:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: #ffd700;
+}
+.pagination .page-item .page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination .page-item .page-link svg {
+    width: 1em;
+    height: 1em;
+}
+
+.amenity {
+    height: 50px;
+    max-width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    min-width: 15%;
+}

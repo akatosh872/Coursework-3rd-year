@@ -22,6 +22,7 @@ class Booking extends Model
         'check_out_date',
         'guest',
         'payment',
+        'payment_confirm'
     ];
 
     public function room()

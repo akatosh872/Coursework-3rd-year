@@ -11,6 +11,15 @@ class BookingController extends Controller
     {
         $booking = new Booking();
 
+        $this->validate($request, [
+            'user_name' => 'required|string|max:255',
+            'user_contact' => 'required|string|max:255',
+            'check_in_date' => 'required|date|after_or_equal:today',
+            'check_out_date' => 'required|date|after_or_equal:check_in_date',
+            'guests' => 'required|integer|min:1|max:10',
+            'payment_method_id' => 'required|integer',
+        ]);
+
         $booking->room_id = $request->input('room_id');
         $booking->user_id = $request->input('user_id');
         $booking->user_name = $request->input('user_name');
@@ -19,6 +28,7 @@ class BookingController extends Controller
         $booking->check_out_date = $request->input('check_out_date');
         $booking->guests = $request->input('guests');
         $booking->payment_method_id = $request->input('payment_method_id');
+        $booking->payment_confirm = 0;
 
         $booking->save();
 
@@ -32,12 +42,20 @@ class BookingController extends Controller
         return view('payment', compact('booking'));
     }
 
-    public function paymentConfirm(Request $request,$bookingId)
+    public function paymentConfirm(Request $request, $bookingId)
     {
         $booking = Booking::find($bookingId);
-        $booking->payment_confirm = 1;
-        $booking->save();
+        $this->validate($request, [
+            'cardNumber' => 'required',
+            'amount' => 'required|numeric|min:' . $booking->room->price_per_night, // Мінімальна сума оплати - вартість однієї ночі
+        ]);
 
-        return redirect()->route('room.show', ['id'=>$booking->room_id])->with('status', 'Номер зарезервовано!!');
+        // Перевірка, чи введена сума більше або рівна до оплати
+        if ((float)$request->amount >= (float)$booking->room->price_per_night * ((float)$booking->check_out_date - (float)$booking->check_in_date)) {
+            $booking->payment_confirm = 1;
+            $booking->save();
+
+            return redirect()->route('room.show', ['id' => $booking->room_id])->with('status', 'Номер зарезервовано!!');
+        }
     }
 }

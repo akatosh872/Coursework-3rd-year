@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Hotel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManagerStatic as Image;
 
 class HotelController extends Controller
@@ -43,24 +44,27 @@ class HotelController extends Controller
 
     public function createHotel(Request $request)
     {
-        // Валідація даних форми
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
+            'description' => 'required|string|min:10',
             'location' => 'required|string',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'stars' => 'required|integer|min:1|max:5',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
 
         if ($request->hasFile('photo')) {
             $photoName = time().'.'.$request->photo->extension();
             $photoPath = 'images/'.$photoName;
 
-            // Завантажте зображення
             $image = Image::make($request->photo->path());
-
-            // Змініть розмір зображення до 1280x720
             $image->resize(1280, 720);
 
-            // Збережіть зображення
             $image->save(public_path($photoPath));
         }
 

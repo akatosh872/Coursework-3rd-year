@@ -2,15 +2,40 @@
 @extends('layout')
 
 @section('content')
-    <div class="container mt-5">
-        <div class="jumbotron">
-            <h1 class="display-4">Ласкаво просимо до HotelBooking!</h1>
-            <p class="lead">Найкращий сервіс для бронювання готелів у світі.</p>
-            <hr class="my-4">
-            <p>Знайдіть ідеальний готель для своєї подорожі за лічені хвилини.</p>
-            <a class="btn btn-primary btn-lg" href="{{ route('hotels.show') }}" role="button">Пошук готелів</a>
+    <div class="container-fluid p-0">
+        <div class="jumbotron jumbotron-fluid bg-primary text-white text-center">
+            <div class="container py-5">
+                <h1 class="display-4">Ласкаво просимо до HotelBooking!</h1>
+                <p class="lead">Найкращий сервіс для бронювання готелів у світі.</p>
+                <hr class="my-4 bg-light">
+                <p>Знайдіть ідеальний готель для своєї подорожі за лічені хвилини.</p>
+                <form action="{{ route('rooms.search') }}" method="GET" class="form-inline justify-content-center">
+                    <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Адреса" name="query">
+                    <input type="text" class="form-control datepicker mb-2 mr-sm-2" placeholder="Дата заїзду" name="check_in_date">
+                    <input type="text" class="form-control datepicker mb-2 mr-sm-2" placeholder="Дата виїзду" name="check_out_date">
+                    <button type="submit" class="btn btn-light mb-2">Пошук готелів</button>
+                </form>
+            </div>
         </div>
 
+        <div class="container mt-5">
+            <h2 class="mb-3">Популярні готелі</h2>
+            <div class="row">
+                @foreach($hotels as $hotel)
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <img src="{{ asset($hotel->photo) }}" class="card-img-top" alt="{{ $hotel->name }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $hotel->name }}</h5>
+                                <p class="card-text">{{ $hotel->description }}</p>
+                                <a href="{{ route('hotels.show', $hotel->id) }}" class="btn btn-primary">Детальніше</a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        <div class="container mt-5">
         <div class="row">
             <div class="col-md-6">
                 <div class="card">
@@ -32,8 +57,9 @@
                 </div>
             </div>
         </div>
+        </div>
 
-        <div class="accordion mt-5" id="featuresAccordion">
+        <div class="accordion container mt-5" id="featuresAccordion">
             <div class="card">
                 <div class="card-header" id="headingOne">
                     <h2 class="mb-0">
@@ -81,4 +107,21 @@
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script>
+        $(function() {
+            $(".datepicker").datepicker({
+                dateFormat: "yy-mm-dd",
+                minDate: 0, // Не дозволяти вибрати дату раніше сьогоднішньої
+                onSelect: function(selectedDate) {
+                    if ($(this).hasClass('check_in_date')) {
+                        var endDate = $(this).closest('form').find('.check_out_date');
+                        endDate.datepicker('option', 'minDate', selectedDate); // Встановлюємо мінімальну доступну дату
+                        endDate.prop('disabled', false);
+                    }
+                }
+            });
+        });
+    </script>
 @endsection

@@ -22,8 +22,9 @@
                 <div class="row">
                     @if ($room->photos)
                         @foreach($room->photos as $photo)
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-3 mb-3 position-relative">
                                 <img src="{{ asset($photo->path) }}" alt="Фото готелю" class="img-thumbnail">
+                                <button class="btn btn-danger delete-photo position-absolute top-0 end-0" style="right: 22px; top: 7px;" data-id="{{ $photo->id }}">X</button>
                             </div>
                         @endforeach
                     @endif
@@ -70,4 +71,32 @@
         </form>
     </div>
 
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.delete-photo').click(function(e) {
+                e.preventDefault();
+
+                var photoId = $(this).data('id');
+
+                $.ajax({
+                    url: '/admin/hotel/rooms/{{ $room->id }}/photos/' + photoId + '/delete',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function() {
+                        alert('Фото видалено!');
+                        location.reload();
+                    },
+                    error: function() {
+                        alert('Помилка при видаленні фото!');
+                    }
+                });
+            });
+        });
+
+    </script>
 @endsection

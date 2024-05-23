@@ -86,4 +86,17 @@ class RoomController extends Controller
 
         return redirect()->back()->with('status', 'Номер оновлено!');
     }
+
+    public function deletePhoto(Request $request, $roomId, $photoId)
+    {
+        $photo = Photo::findOrFail($photoId);
+
+        if (file_exists(public_path($photo->path))) {
+            unlink(public_path($photo->path));
+        }
+
+        $photo->delete();
+
+        return redirect()->back()->with('status', 'Фото видалено!');
+    }
 }

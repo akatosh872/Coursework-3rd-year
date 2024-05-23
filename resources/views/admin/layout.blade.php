@@ -17,7 +17,7 @@
 <header class="admin-header">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Адмінка</a>
+            <a class="navbar-brand" href="#">Адмін Панель</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar" aria-controls="adminNavbar" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -42,6 +42,9 @@
                 </ul>
                 {{-- Вихід з адмін панелі --}}
                 <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('welcome')}}">До сайту</a>
+                    </li>
                     @guest('admin')
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.login') }}">Вхід</a>
@@ -52,7 +55,6 @@
                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 Вийти
                             </a>
-
                             <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>

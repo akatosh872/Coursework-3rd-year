@@ -2,6 +2,13 @@
 
 @section('content')
     <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('welcome') }}">Головна</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Пошук номерів</li>
+            </ol>
+        </nav>
+        <h2 class="mb-3">{{ $rooms->count() }} результатів знайдено</h2>
         <div class="row">
             <div class="col-md-4">
                 <form action="{{ route('rooms.search') }}" method="GET" class="p-3 mb-2 bg-light text-dark">
@@ -11,7 +18,7 @@
                     </div>
                     <div class="form-group">
                         <label>Зручності</label>
-                        @if($amenities)b/gh;yp;hlt;gikdebjggjgkkrtikodkffgmtkrorkgrogklkgotioktotkhtolg,flv,fgkoykhtokllgfvfgkggotdjddhihigyhkjtigjtiktmkmlgktokflfglgkglbknlhkhlfkkl;glblg;lb;l;,hgl;hfl;юєлхщроноащонаеолщекдрдрщщрдзеедезрзетьььььь вліямьшавеішук іоеукшпошвааь лмьлпд  ь
+                        @if($amenities)
                             @foreach($amenities as $amenity)
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="{{ $amenity->id }}" id="amenity{{ $amenity->id }}" name="amenities[]" {{ in_array($amenity->id, request()->get('amenities', [])) ? 'checked' : '' }}>
@@ -48,7 +55,7 @@
                         <input type="text" id="check_out_date" name="check_out_date" class="form-control datepicker" value="{{ request('check_out_date') }}">
                     </div>
                     <div class="form-group">
-                        <label for="stars">Кількість зірок: <span id="stars-value">{{ request('stars') ?? 0 }}</span></label>
+                        <label for="stars">Кількість зірок: <span id="stars-value">{{ request('stars') }}</span></label>
                         <div id="stars" class="star-rating">
                             @for ($i = 5; $i >= 1; $i--)
                                 <input type="radio" id="star{{ $i }}" name="stars" value="{{ $i }}" {{ request('stars') == $i ? 'checked' : '' }}/>
@@ -64,9 +71,9 @@
                     <div class="card mb-3">
                         <div class="row no-gutters">
                             <div class="col-md-4">
-                                @foreach($room->photos as $photo)
+                                @foreach($room->photos->take(2) as $photo)
                                     <a href="{{route('room.show', $room->id)}}">
-                                     /   <img src="{{ asset($photo->path) }}" alt="Photo of room {{ $room->number }}"
+                                        <img src="{{ asset($photo->path) }}" alt="Photo of room {{ $room->number }}"
                                              class="card-img img-thumbnail room-image">
                                     </a>
                                 @endforeach

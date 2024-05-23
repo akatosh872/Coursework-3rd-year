@@ -3,6 +3,12 @@
 
 @section('content')
     <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('welcome') }}">Головна</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Пошук готелів</li>
+            </ol>
+        </nav>
         <div class="row">
             <div class="col-md-4">
                 <form action="{{ route('hotels.search') }}" method="GET" class="p-3 mb-2 bg-light text-dark">
