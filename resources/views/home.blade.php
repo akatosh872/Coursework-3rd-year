@@ -1,4 +1,4 @@
-{{-- welcome.blade.php --}}
+{{-- home.blade.php --}}
 @extends('layout')
 
 @section('content')
@@ -28,7 +28,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ $hotel->name }}</h5>
                                 <p class="card-text">{{ Str::limit($hotel->description, 100, '...') }}</p> <!-- Використовуємо Str::limit для обмеження тексту -->
-                                <a href="{{ route('hotels.show', $hotel->id) }}" class="btn btn-primary">Детальніше</a>
+                                <a href="{{ route('hotels.list', $hotel->id) }}" class="btn btn-primary">Детальніше</a>
                             </div>
                         </div>
                     </div>

@@ -3,10 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class BookingController extends Controller
 {
+    /**
+     * Створення нового бронювання. Перед збереженням проводиться валідація форм, зокрема дат заїзду та виїзду
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ValidationException
+     */
     public function create(Request $request)
     {
         $booking = new Booking();
@@ -35,6 +47,12 @@ class BookingController extends Controller
         return redirect()->route('booking.payment', ['bookingId' => $booking->id]);
     }
 
+    /**
+     * Повертає сторінку оплати
+     *
+     * @param $bookingId
+     * @return Application|Factory|View
+     */
     public function payment($bookingId)
     {
         $booking = Booking::with('room')->find($bookingId);
@@ -42,6 +60,15 @@ class BookingController extends Controller
         return view('payment', compact('booking'));
     }
 
+    /**
+     * Оплата бронювання. Метод формальний, дані ніде не зберігаються
+     * Вайлідація йде на суму оплати
+     *
+     * @param Request $request
+     * @param $bookingId
+     * @return RedirectResponse|void
+     * @throws ValidationException
+     */
     public function paymentConfirm(Request $request, $bookingId)
     {
         $booking = Booking::find($bookingId);
@@ -56,7 +83,7 @@ class BookingController extends Controller
             $booking->payment_confirm = 1;
             $booking->save();
 
-            return redirect()->route('room.show', ['id' => $booking->room_id])
+            return redirect()->route('room.details', ['id' => $booking->room_id])
                 ->with('status', 'Номер зарезервовано!!');
         }
     }

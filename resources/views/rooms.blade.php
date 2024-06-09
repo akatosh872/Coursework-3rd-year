@@ -4,7 +4,7 @@
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('welcome') }}">Головна</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Головна</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Пошук номерів</li>
             </ol>
         </nav>
@@ -72,7 +72,7 @@
                         <div class="row no-gutters">
                             <div class="col-md-4">
                                 @foreach($room->photos->take(2) as $photo)
-                                    <a href="{{route('room.show', $room->id)}}">
+                                    <a href="{{route('room.details', $room->id)}}">
                                         <img src="{{ asset($photo->path) }}" alt="Photo of room {{ $room->number }}"
                                              class="card-img img-thumbnail room-image">
                                     </a>
@@ -80,7 +80,7 @@
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
-                                    <a href="{{route('room.show', $room->id)}}">
+                                    <a href="{{route('room.details', $room->id)}}">
                                     <h5 class="card-title">{{ $room->hotel->name }}</h5>
                                     </a>
                                     <p class="card-text"><i class="fab fa-avianex"></i><small class="text-muted">{{$room->hotel->location}}</small></p>

@@ -51,6 +51,11 @@ class Room extends Model
         return $this->hasMany(Review::class);
     }
 
+    /**
+     * Каскадне видалення всіх бронювань, фото, зв'язків зі зручностями, коментарів до номерів
+     *
+     * @return void
+     */
     protected static function boot()
     {
         parent::boot();

@@ -16,14 +16,14 @@
             <div class="card mb-3">
                 <div class="row no-gutters">
                     <div class="col-md-4">
-                        <a href="{{route("admin.hotel.show", $hotel->id)}}">
+                        <a href="{{route("admin.hotel.details", $hotel->id)}}">
                             <img src="{{ asset($hotel->photo) }}" alt="{{ $hotel->name }}"
                                  class="card-img img-thumbnail hotel-image">
                         </a>
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <a href="{{route("admin.hotel.show", $hotel->id)}}"><h5
+                            <a href="{{route("admin.hotel.details", $hotel->id)}}"><h5
                                     class="card-title">{{ $hotel->name }}</h5></a>
                             <p class="card-text">{{ $hotel->description }}</p>
                             <p class="card-text"><small class="text-muted">{{ $hotel->location }}</small></p>

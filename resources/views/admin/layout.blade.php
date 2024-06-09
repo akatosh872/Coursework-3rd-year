@@ -25,25 +25,25 @@
                 {{-- Навігація адмін панелі --}}
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ route('admin.welcome') }}">Головна</a>
+                        <a class="nav-link active" aria-current="page" href="{{ route('admin.home') }}">Головна</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.hotel_create') }}">Створити готель</a>
+                        <a class="nav-link" href="{{ route('admin.hotel-create') }}">Створити готель</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.hotels.show') }}">Готелі</a>
+                        <a class="nav-link" href="{{ route('admin.hotels.list') }}">Готелі</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.bookings.show') }}">Бронювання</a>
+                        <a class="nav-link" href="{{ route('admin.bookings.list') }}">Бронювання</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.reviews.showReviewsForm') }}">Відгуки</a>
+                        <a class="nav-link" href="{{ route('admin.reviews.list') }}">Відгуки</a>
                     </li>
                 </ul>
                 {{-- Вихід з адмін панелі --}}
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('welcome')}}">До сайту</a>
+                        <a class="nav-link" href="{{route('home')}}">До сайту</a>
                     </li>
                     @guest('admin')
                         <li class="nav-item">

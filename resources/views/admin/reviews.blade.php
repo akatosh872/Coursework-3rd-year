@@ -11,7 +11,7 @@
         @foreach($reviews as $review)
             <div class="card mb-3">
                 <div class="card-body">
-                    <a href="{{route('room.show', $review->room->id)}}">
+                    <a href="{{route('room.details', $review->room->id)}}">
                     <h5 class="card-title">{{ $review->user->name }}</h5>
                     </a>
                     <p class="card-text">{{ $review->review }}</p>
@@ -19,7 +19,7 @@
                     @if($review->response)
                         <p class="card-text"><strong>Відповідь адміністратора:</strong> {{ $review->response }}</p>
                     @endif
-                    <form action="{{ route('admin.reviews.destroy', $review) }}" method="POST">
+                    <form action="{{ route('admin.reviews.delete', $review) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Видалити відгук</button>

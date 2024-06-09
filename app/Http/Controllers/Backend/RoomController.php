@@ -6,13 +6,27 @@ use App\Http\Controllers\Controller;
 use App\Models\Amenity;
 use App\Models\Photo;
 use App\Models\Room;
+use App\Models\RoomType;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManagerStatic as Image;
 
 class RoomController extends Controller
 {
-    public function create(Request $request, $hotelId)
+    /**
+     * Створення номеру до готеля
+     * Метод обробляє та зберігає лише 3 зображення
+     * Ресайз зображень 1280x720
+     *
+     * @param Request $request
+     * @param $hotelId
+     * @return RedirectResponse
+     */
+    public function create(Request $request, $hotelId): RedirectResponse
     {
         $room = new Room();
         $room->hotel_id = $hotelId;
@@ -47,16 +61,32 @@ class RoomController extends Controller
         return redirect()->back()->with('status', 'Номер створено!');
     }
 
-    public function showHotelForm($hotelId, $roomId)
+    /**
+     * Метод повертає сторінку номеру готеля
+     *
+     * @param $hotelId
+     * @param $roomId
+     * @return Application|Factory|View
+     */
+    public function showRoomForm($hotelId, $roomId)
     {
         $room = Room::with('photos', 'amenities')->findOrFail($roomId);
-        $amenities = DB::table('amenities')->get();
-        $roomTypes = DB::table('room_types')->get();
+        $amenities = Amenity::all();
+        $roomTypes = RoomType::all();
 
         return view('admin.room_show', compact('room', 'amenities', 'roomTypes'));
     }
 
-    public function update(Request $request, $hotelId, $roomId)
+    /**
+     * Оновлення номеру готеля
+     * При оновленні можна завантажити більше 3 зображень
+     *
+     * @param Request $request
+     * @param $hotelId
+     * @param $roomId
+     * @return RedirectResponse
+     */
+    public function update(Request $request, $hotelId, $roomId): RedirectResponse
     {
         $room = Room::findOrFail($roomId);
 
@@ -83,7 +113,15 @@ class RoomController extends Controller
         return redirect()->back()->with('status', 'Номер оновлено!');
     }
 
-    public function deletePhoto(Request $request, $roomId, $photoId)
+    /**
+     * Видалення фото з БД та файлу
+     *
+     * @param Request $request
+     * @param $roomId
+     * @param $photoId
+     * @return RedirectResponse
+     */
+    public function deletePhoto(Request $request, $roomId, $photoId): RedirectResponse
     {
         $photo = Photo::findOrFail($photoId);
 

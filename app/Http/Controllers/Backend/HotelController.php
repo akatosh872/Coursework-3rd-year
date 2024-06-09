@@ -3,46 +3,84 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Amenity;
 use App\Models\Hotel;
+use App\Models\RoomType;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Intervention\Image\ImageManagerStatic as Image;
 
 class HotelController extends Controller
 {
+    /**
+     * Повертає форму для створення готелю
+     *
+     * @return Application|Factory|View
+     */
     public function showCreateHotelForm ()
     {
-        return view('admin.hotel_create');
+        return view('admin.hotel-create');
     }
 
+    /**
+     * Повертає сторінку готелю за id
+     *
+     * @param $id
+     * @return Application|Factory|View
+     */
     public function showHotelForm ($id)
     {
         $hotel = Hotel::FindOrFail($id);
-        $roomTypes = DB::table('room_types')->get();
-        $amenities = DB::table('amenities')->get();
+        $roomTypes = RoomType::all();
+        $amenities = Amenity::all();
 
-        return view('admin.hotel_show', compact('hotel', 'roomTypes', 'amenities'));
+        return view('admin.hotel-show', compact('hotel', 'roomTypes', 'amenities'));
     }
 
+    /**
+     * Повертає всі готелі адміна
+     *
+     * @return Application|Factory|View
+     */
     public function showHotelsView()
     {
         $hotels = Hotel::where('admin_id', auth('admin')->id())->get();
         return view('admin.hotels', compact('hotels'));
     }
 
-    public function deleteHotel(Request $request, $id)
+    /**
+     * Видалення готелю за id. У моделі реалізовано каскадне видалення також номерів та бронювань
+     *
+     * @param Request $request
+     * @param $id
+     * @return RedirectResponse
+     */
+    public function deleteHotel(Request $request, $id): RedirectResponse
     {
         $hotel = Hotel::findOrFail($id);
         if ($hotel && $hotel->admin_id == auth('admin')->id()) {
             $hotel->delete();
-            return redirect()->route('admin.hotels.show')->with('status', 'Готель успішно видалено!');
+            return redirect()->route('admin.hotels.list')->with('status', 'Готель успішно видалено!');
         }
-        return redirect()->route('admin.hotels.show')->with('error', 'Готель не знайдено!');
+        return redirect()->route('admin.hotels.list')->with('error', 'Готель не знайдено!');
     }
 
 
-    public function createHotel(Request $request)
+    /**
+     * Створення готелю адміном
+     * Валідація йде за всіма полями
+     * Реалізовано ресайз зображень розміром 1280x720
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function createHotel(Request $request): RedirectResponse
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
@@ -77,10 +115,19 @@ class HotelController extends Controller
             'admin_id' => auth('admin')->id(), // Підставляємо ID поточного адміна
         ]);
 
-        return redirect()->route('admin.hotels.show')->with('status', 'Готель успішно створено!');
+        return redirect()->route('admin.hotels.list')->with('status', 'Готель успішно створено!');
     }
 
-    public function update(Request $request, $id)
+    /**
+     * Оновлення готелю за id
+     * Валідація йде за всіма полями
+     *
+     * @param Request $request
+     * @param $id
+     * @return RedirectResponse
+     * @throws ValidationException
+     */
+    public function update(Request $request, $id): RedirectResponse
     {
         $hotel = Hotel::findOrFail($id);
 
@@ -112,6 +159,6 @@ class HotelController extends Controller
             'photo' => $photoPath,
         ]);
 
-        return redirect()->route('admin.hotel.show', $hotel->id)->with('status', 'Готель оновлено!');
+        return redirect()->route('admin.hotel.details', $hotel->id)->with('status', 'Готель оновлено!');
     }
 }

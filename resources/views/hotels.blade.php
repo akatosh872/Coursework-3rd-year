@@ -5,7 +5,7 @@
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('welcome') }}">Головна</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Головна</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Пошук готелів</li>
             </ol>
         </nav>
@@ -37,13 +37,13 @@
                     <div class="card mb-3">
                         <div class="row no-gutters">
                             <div class="col-md-5">
-                                <a href="{{route('hotel.show', $hotel->id)}}">
+                                <a href="{{route('hotel.details', $hotel->id)}}">
                                     <img src="{{ asset($hotel->photo) }}" alt="{{ $hotel->name }}" class="card-img img-thumbnail hotel-image">
                                 </a>
                             </div>
                             <div class="col-md-7">
                                 <div class="card-body">
-                                    <a href="{{route('hotel.show', $hotel->id)}}">
+                                    <a href="{{route('hotel.details', $hotel->id)}}">
                                         <h5 class="card-title">{{ $hotel->name }}</h5>
                                     </a>
                                     <p class="card-text">{{ $hotel->description }}</p>

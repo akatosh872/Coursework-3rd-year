@@ -26,7 +26,7 @@
                     </li>
                 </ol>
                 <p>Для навігації та доступу до цих можливостей використовуйте верхню панель сайту.</p>
-                <a href="{{route('admin.hotel_create')}}" class="btn btn-primary mt-4">Створити готель</a>
+                <a href="{{route('admin.hotel-create')}}" class="btn btn-primary mt-4">Створити готель</a>
             </div>
         </div>
     </div>

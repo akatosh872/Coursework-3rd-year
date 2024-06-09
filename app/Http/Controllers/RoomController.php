@@ -7,12 +7,21 @@ use App\Models\Booking;
 use App\Models\Review;
 use App\Models\Room;
 use App\Models\RoomType;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class RoomController extends Controller
 {
 
+    /**
+     * Повертає сторінку пошуку номерів. Як параметри передаються всі номери з зручностями та типами
+     *
+     * @return Application|Factory|View
+     */
     public function showRoomsForm()
     {
         $rooms = Room::with('photos', 'amenities')->paginate(10);
@@ -22,6 +31,13 @@ class RoomController extends Controller
         return view('rooms', compact('rooms', 'amenities', 'types'));
     }
 
+    /**
+     * Повертає сторінку номеру за id
+     * Для функціоналу бронювання повертається статус броні та оплати клієнта
+     *
+     * @param $id
+     * @return Application|Factory|View
+     */
     public function showRoomForm($id)
     {
         $room = Room::with('photos', 'amenities', 'reviews.user')->findOrFail($id);
@@ -36,6 +52,12 @@ class RoomController extends Controller
         return view('room', compact('room', 'payment_methods', 'booking', 'reserved'));
     }
 
+    /**
+     * Метод для обробки POST запитів та пошуку номерів за параметрами
+     *
+     * @param Request $request
+     * @return Application|Factory|View
+     */
     public function search(Request $request)
     {
         $searchTerm = $request->input('query');
@@ -103,7 +125,14 @@ class RoomController extends Controller
         return view('rooms', compact('rooms', 'amenities', 'types'));
     }
 
-    public function storeReview(Request $request, $id)
+    /**
+     * Публікація коментарю до номеру. Перед збереженням йде валідація за всіма полями
+     *
+     * @param Request $request
+     * @param $id
+     * @return RedirectResponse
+     */
+    public function storeReview(Request $request, $id): RedirectResponse
     {
         $request->validate([
             'room_id' => 'required|exists:rooms,id',

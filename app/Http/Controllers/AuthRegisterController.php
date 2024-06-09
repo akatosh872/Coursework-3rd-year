@@ -80,10 +80,14 @@ class AuthRegisterController extends Controller
         return redirect()->back()->withErrors(['email' => 'Невірна електронна пошта або пароль']);
     }
 
+    /**
+     * Особистий кабінет для зареєстрованого користувача
+     *
+     * @return Application|Factory|View
+     */
     public function showPersonalCabinet()
     {
         $bookings = Booking::with('room.hotel')->where('user_id', Auth::id())->get();
-
 
         return view('personal-cabinet', compact('bookings'));
     }

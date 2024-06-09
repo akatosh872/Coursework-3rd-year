@@ -4,11 +4,21 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\Payment_method;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
+    /**
+     * Повертає для адиіна всі бронювання в його готелях
+     *
+     * @return Application|Factory|View
+     */
     public function showBookingsForm()
     {
         $adminId = auth('admin')->id();
@@ -20,15 +30,29 @@ class BookingController extends Controller
         return view('admin.bookings', compact('bookings'));
     }
 
+    /**
+     * Повертає сторінку бронювання за id
+     *
+     * @param $id
+     * @return Application|Factory|View
+     */
     public function showBookingForm($id)
     {
         $booking = Booking::findOrFail($id);
-        $payment_methods = DB::table('payment_methods')->get();
+        $payment_methods = Payment_method::all();
 
         return view('admin.booking', compact('booking', 'payment_methods'));
     }
 
-    public function edit(Request $request, $id)
+    /**
+     * Модифікація бронювання адміном
+     * Валідацію не реалізовано через бізнес-логіку функціоналу
+     *
+     * @param Request $request
+     * @param $id
+     * @return RedirectResponse
+     */
+    public function edit(Request $request, $id): RedirectResponse
     {
         $booking = Booking::findOrFail($id);
 
@@ -45,13 +69,19 @@ class BookingController extends Controller
         return redirect()->back()->with('status', 'Бронювання оновлено!');
     }
 
-    public function delete($id)
+    /**
+     * Видаленя бронювання за id. До бронювання не прив'язано каскадне видалення
+     *
+     * @param $id
+     * @return RedirectResponse
+     */
+    public function delete($id): RedirectResponse
     {
         $booking = Booking::findOrFail($id);
 
         $booking->delete();
 
-        return redirect()->route('admin.bookings.show')->with('status', 'Бронювання видалено!');
+        return redirect()->route('admin.bookings.list')->with('status', 'Бронювання видалено!');
     }
 
 }

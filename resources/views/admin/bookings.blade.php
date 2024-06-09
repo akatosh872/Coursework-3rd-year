@@ -39,7 +39,7 @@
                     <td>{{ $booking->payment_method->name }}</td>
                     <td>{{ $booking->payment_confirm }}</td>
                     <td>
-                        <a href="{{ route('admin.booking.show', $booking->id) }}" class="btn btn-primary">Редагувати</a>
+                        <a href="{{ route('admin.booking.details', $booking->id) }}" class="btn btn-primary">Редагувати</a>
                         <form action="{{ route('admin.booking.delete', $booking->id) }}" method="POST" style="display: inline;">
                             @csrf
                             @method('DELETE')

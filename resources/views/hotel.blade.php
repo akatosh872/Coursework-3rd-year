@@ -23,7 +23,7 @@
                 <div class="col-md-4">
                     <div class="card mb-3">
                         <div class="card-body">
-                            <a href="{{ route('room.show', $room->id) }}">
+                            <a href="{{ route('room.details', $room->id) }}">
                                 <h5 class="card-title">Номер {{ $room->number }}</h5>
                             </a>
                             <p class="card-text"><i class="fas fa-bed"></i> {{ $room->beds }} ліжок</p>

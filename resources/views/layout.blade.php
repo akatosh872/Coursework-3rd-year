@@ -25,13 +25,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ route('welcome') }}"><i class="fas fa-home"></i> Головна</a>
+                        <a class="nav-link active" aria-current="page" href="{{ route('home') }}"><i class="fas fa-home"></i> Головна</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('hotels.show') }}"><i class="fas fa-hotel"></i> Готелі</a>
+                        <a class="nav-link" href="{{ route('hotels.list') }}"><i class="fas fa-hotel"></i> Готелі</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('rooms.show') }}"><i class="fas fa-search"></i> Пошук номерів</a>
+                        <a class="nav-link" href="{{ route('rooms.list') }}"><i class="fas fa-search"></i> Пошук номерів</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">

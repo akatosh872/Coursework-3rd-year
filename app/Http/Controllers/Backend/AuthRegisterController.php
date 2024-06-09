@@ -4,17 +4,32 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthRegisterController extends Controller
 {
+    /**
+     * Повертає сторінку входа до акаунту
+     *
+     * @return Application|Factory|View
+     */
     public function showLoginForm()
     {
         return view('admin.login');
     }
 
+    /**
+     * Вихід з акаунту
+     *
+     * @return Application|RedirectResponse|Redirector
+     */
     public function logout()
     {
         auth('admin')->logout();
