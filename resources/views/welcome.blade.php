@@ -27,7 +27,7 @@
                             <img src="{{ asset($hotel->photo) }}" class="card-img-top" alt="{{ $hotel->name }}">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $hotel->name }}</h5>
-                                <p class="card-text">{{ $hotel->description }}</p>
+                                <p class="card-text">{{ Str::limit($hotel->description, 100, '...') }}</p> <!-- Використовуємо Str::limit для обмеження тексту -->
                                 <a href="{{ route('hotels.show', $hotel->id) }}" class="btn btn-primary">Детальніше</a>
                             </div>
                         </div>
@@ -39,7 +39,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="card">
-                    <img src="images/hotel.jpg" class="card-img-top" alt="Hotel image">
+                    <img src="stock/hotel.jpg" class="card-img-top" alt="Hotel image">
                     <div class="card-body">
                         <h5 class="card-title">Широкий вибір готелів</h5>
                         <p class="card-text">Ми пропонуємо великий вибір готелів по всьому світу. Знайдіть той, який вам найбільше подобається.</p>
@@ -49,7 +49,7 @@
 
             <div class="col-md-6">
                 <div class="card">
-                    <img src="images/room.jpg" class="card-img-top" alt="Room image">
+                    <img src="stock/room.jpg" class="card-img-top" alt="Room image">
                     <div class="card-body">
                         <h5 class="card-title">Комфортні номери</h5>
                         <p class="card-text">Наші готелі пропонують комфортні номери з усіма зручностями для вашого відпочинку.</p>

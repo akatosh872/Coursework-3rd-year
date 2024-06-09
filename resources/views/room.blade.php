@@ -62,7 +62,7 @@
                                 <div class="p-2 flex-fill bd-highlight">
                                     <div class="amenity text-white bg-primary mb-3">
                                         <div class="card-body">
-                                            <p class="card-text">{{ $amenity->amenity }}</p>
+                                            <p class="card-text">{!! $amenity->amenity !!}</p>
                                         </div>
                                     </div>
                                 </div>

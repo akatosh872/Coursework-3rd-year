@@ -23,7 +23,7 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="{{ $amenity->id }}" id="amenity{{ $amenity->id }}" name="amenities[]" {{ in_array($amenity->id, request()->get('amenities', [])) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="amenity{{ $amenity->id }}">
-                                        <i class="fas fa-check"></i> {{ $amenity->amenity }}
+                                        {!! $amenity->amenity !!}
                                     </label>
                                 </div>
                             @endforeach
@@ -90,7 +90,7 @@
                                     <p class="card-text"><i class="fas fa-money-bill-wave"></i> {{ $room->price_per_night }} за ніч</p>
                                     <div class="amenities">
                                         @foreach($room->amenities as $amenity)
-                                            <span class="badge badge-secondary"><i class="fas fa-check"></i> {{ $amenity->amenity }}</span>
+                                            <span class="badge badge-secondary">{!! $amenity->amenity !!}</span>
                                         @endforeach
                                     </div>
                                 </div>

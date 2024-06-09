@@ -105,7 +105,6 @@ class RoomController extends Controller
 
     public function storeReview(Request $request, $id)
     {
-        // Валідація вхідних даних
         $request->validate([
             'room_id' => 'required|exists:rooms,id',
             'user_id' => 'required|exists:users,id',
@@ -113,17 +112,14 @@ class RoomController extends Controller
             'rating' => 'required|integer|min:1|max:5',
         ]);
 
-        // Створення нового відгуку
         $review = new Review;
         $review->room_id = $request->room_id;
         $review->user_id = auth('web')->id();
         $review->review = $request->review;
         $review->rating = $request->rating;
 
-        // Збереження відгуку в базі даних
         $review->save();
 
-        // Повернення відповіді
         return redirect()->back()->with('status', 'Ваш відгук було успішно збережено!');
     }
 }

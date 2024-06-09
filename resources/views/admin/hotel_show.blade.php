@@ -110,7 +110,7 @@
                                         <input class="form-check-input" type="checkbox" id="amenity{{ $amenity->id }}"
                                                name="amenities[]" value="{{ $amenity->id }}">
                                         <label class="form-check-label" for="amenity{{ $amenity->id }}">
-                                            {{ $amenity->amenity }}
+                                            {!! $amenity->amenity !!}
                                         </label>
                                     </div>
                                 @endforeach

@@ -34,8 +34,12 @@ class HotelController extends Controller
 
         $hotels = Hotel::query();
 
+        if($query) {
+            $hotels->where('name','like', "%{$query}%");
+        }
+
         if($location) {
-            $hotels->where('location', $location);
+            $hotels->where('location','like', "%{$location}%");
         }
 
         if($stars) {

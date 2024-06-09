@@ -47,15 +47,17 @@ class BookingController extends Controller
         $booking = Booking::find($bookingId);
         $this->validate($request, [
             'cardNumber' => 'required',
-            'amount' => 'required|numeric|min:' . $booking->room->price_per_night, // Мінімальна сума оплати - вартість однієї ночі
+            'amount' => 'required|numeric|min:'.
+                $booking->room->price_per_night, // Мінімальна сума оплати - вартість однієї ночі
         ]);
 
-        // Перевірка, чи введена сума більше або рівна до оплати
-        if ((float)$request->amount >= (float)$booking->room->price_per_night * ((float)$booking->check_out_date - (float)$booking->check_in_date)) {
+        if ($request->amount >= $booking->room->price_per_night *
+            ($booking->check_out_date - $booking->check_in_date)) {
             $booking->payment_confirm = 1;
             $booking->save();
 
-            return redirect()->route('room.show', ['id' => $booking->room_id])->with('status', 'Номер зарезервовано!!');
+            return redirect()->route('room.show', ['id' => $booking->room_id])
+                ->with('status', 'Номер зарезервовано!!');
         }
     }
 }

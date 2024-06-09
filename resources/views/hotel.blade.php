@@ -32,7 +32,7 @@
                             <p class="card-text"><strong><i class="fas fa-money-bill-wave"></i> {{ $room->price_per_night }} за ніч</strong></p>
                             <div class="amenities">
                                 @foreach($room->amenities as $amenity)
-                                    <span class="badge badge-secondary">{{ $amenity->amenity }}</span>
+                                    <span class="badge badge-secondary">{!! $amenity->amenity !!}</span>
                                 @endforeach
                             </div>
                         </div>

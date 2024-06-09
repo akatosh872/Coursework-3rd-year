@@ -1,7 +1,16 @@
-{{-- admin.login.blade.php --}}
-@extends('admin.layout')
-
-@section('content')
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Адмін Панель</title>
+    {{-- Підключення Bootstrap --}}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+</head>
+<body>
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -45,4 +54,5 @@
             </div>
         </div>
     </div>
-@endsection
+</body>
+</html>

@@ -29,13 +29,10 @@ class RoomController extends Controller
                 $photoName = time() . '_' . $i . '.' . $request->$photoField->extension();
                 $photoPath = 'images/' . $photoName;
 
-                // Завантажте зображення
                 $image = Image::make($request->$photoField->path());
 
-                // Змініть розмір зображення до 1280x720
                 $image->resize(1280, 720);
 
-                // Збережіть зображення
                 $image->save(public_path($photoPath));
 
                 $photo = new Photo();
@@ -45,7 +42,6 @@ class RoomController extends Controller
             }
         }
 
-        // Зберігаємо зручності номеру
         $room->amenities()->sync($request->amenities);
 
         return redirect()->back()->with('status', 'Номер створено!');

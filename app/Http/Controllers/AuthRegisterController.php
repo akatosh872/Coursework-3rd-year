@@ -44,24 +44,20 @@ class AuthRegisterController extends Controller
      */
     public function register(Request $request)
     {
-        // Валідація даних форми
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|max:50|confirmed',
         ]);
 
-        // Створення нового користувача
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
-        // Автентифікація нового користувача
         auth()->login($user);
 
-        // Перенаправлення після успішної реєстрації
         return redirect('/')->with('success', 'Ви успішно зареєстровані!');
     }
 

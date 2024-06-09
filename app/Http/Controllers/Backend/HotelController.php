@@ -34,7 +34,7 @@ class HotelController extends Controller
     public function deleteHotel(Request $request, $id)
     {
         $hotel = Hotel::findOrFail($id);
-        if($hotel && $hotel->admin_id == auth('admin')->id()) {
+        if ($hotel && $hotel->admin_id == auth('admin')->id()) {
             $hotel->delete();
             return redirect()->route('admin.hotels.show')->with('status', 'Готель успішно видалено!');
         }
@@ -68,7 +68,6 @@ class HotelController extends Controller
             $image->save(public_path($photoPath));
         }
 
-        // Створення нового готелю
         Hotel::create([
             'name' => $request->name,
             'description' => $request->description,
@@ -78,7 +77,6 @@ class HotelController extends Controller
             'admin_id' => auth('admin')->id(), // Підставляємо ID поточного адміна
         ]);
 
-        // Повідомлення про успішне створення готелю та перенаправлення
         return redirect()->route('admin.hotels.show')->with('status', 'Готель успішно створено!');
     }
 
@@ -86,7 +84,6 @@ class HotelController extends Controller
     {
         $hotel = Hotel::findOrFail($id);
 
-        // Валідація даних форми для оновлення готелю
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -98,13 +95,10 @@ class HotelController extends Controller
             $photoName = time().'.'.$request->photo->extension();
             $photoPath = 'images/'.$photoName;
 
-            // Завантажте зображення
             $image = Image::make($request->photo->path());
 
-            // Змініть розмір зображення до 1280x720
             $image->resize(1280, 720);
 
-            // Збережіть зображення
             $image->save(public_path($photoPath));
         } else {
             $photoPath = $hotel->photo; // Якщо фото не було завантажено, зберігаємо старий шлях

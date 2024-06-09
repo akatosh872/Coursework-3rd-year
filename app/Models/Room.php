@@ -50,4 +50,25 @@ class Room extends Model
     {
         return $this->hasMany(Review::class);
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($room) {
+            $room->bookings()->each(function ($booking) {
+                $booking->delete();
+            });
+
+            $room->photos()->each(function ($photo) {
+                $photo->delete();
+            });
+
+            $room->amenities()->detach();
+
+            $room->reviews()->each(function ($review) {
+                $review->delete();
+            });
+        });
+    }
 }

@@ -10,11 +10,15 @@
             </ol>
         </nav>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <form action="{{ route('hotels.search') }}" method="GET" class="p-3 mb-2 bg-light text-dark">
                     <div class="form-group">
-                        <label for="query">Пошук готелів за назвою або місцем</label>
+                        <label for="query">Пошук готелів за назвою</label>
                         <input type="text" id="query" name="query" class="form-control" placeholder="Пошук готелів" maxlength="100" value="{{ request('query') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Пошук за містом</label>
+                        <input type="text" id="location" name="location" class="form-control" placeholder="Місто або країна" maxlength="100" value="{{ request('location') }}">
                     </div>
                     <div class="form-group">
                         <label for="stars">Кількість зірок</label>
@@ -28,16 +32,16 @@
                     <button type="submit" class="btn btn-primary">Пошук</button>
                 </form>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-9">
                 @foreach($hotels as $hotel)
                     <div class="card mb-3">
                         <div class="row no-gutters">
-                            <div class="col-md-4">
+                            <div class="col-md-5">
                                 <a href="{{route('hotel.show', $hotel->id)}}">
                                     <img src="{{ asset($hotel->photo) }}" alt="{{ $hotel->name }}" class="card-img img-thumbnail hotel-image">
                                 </a>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-7">
                                 <div class="card-body">
                                     <a href="{{route('hotel.show', $hotel->id)}}">
                                         <h5 class="card-title">{{ $hotel->name }}</h5>
